@@ -1,23 +1,21 @@
-package com.example.myapplication.ringout
+package com.example.myapplication.callrecord
 
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.myapplication.MainActivity
-
-
 import com.ringcentral.RestClient
 import com.ringcentral.RestException
+import com.ringcentral.definitions.ReadCallSessionStatusParameters
 import java.io.IOException
 
-class Disconnect_RIngOut {
-
+class CallRecord {
 
     constructor(responseId: String,context: Context) {
         this.responseId = responseId
         this.mContext=context
     }
-    val mContext:Context
+    val mContext: Context
     var responseId: String
 
     var RINGCENTRAL_CLIENTID = "VG9QnUu8RVWvb_pHbedGYA"
@@ -27,6 +25,8 @@ class Disconnect_RIngOut {
     var RINGCENTRAL_USERNAME = "+16509316886"
     var RINGCENTRAL_PASSWORD = "Kiodaija123"
     var RINGCENTRAL_EXTENSION = "101"
+
+    val readCallSessionStatusParameters: ReadCallSessionStatusParameters =  ReadCallSessionStatusParameters()
     //
     var restClient: RestClient? = null
 
@@ -40,7 +40,7 @@ class Disconnect_RIngOut {
                 RINGCENTRAL_EXTENSION,
                 RINGCENTRAL_PASSWORD
             )
-            call_disconnect()
+            startrecording()
 
         } catch (e: RestException) {
             e.printStackTrace()
@@ -53,15 +53,15 @@ class Disconnect_RIngOut {
     @Throws(RestException::class, IOException::class)
 
 
-    fun call_disconnect() {
+    fun startrecording() {
 
+        val callStatus =  restClient!!.restapi().account().extension().ringout(responseId).get()
+        Log.d("CallRecord",callStatus!!.id)
+        val sessionId=callStatus!!.id
+//
+        var getsession = restClient!!.restapi().account().telephony().sessions(sessionId).get(readCallSessionStatusParameters);
 
-        val disconnect = restClient!!.restapi().account().extension().ringout(responseId).delete()
-        Log.d("RingCentral", "Call disconnected" + disconnect!!)
-        if(disconnect==""){
-            var intent= Intent(mContext, MainActivity::class.java)
+        Log.d("CallRecord", "status" + getsession!!.parties.to.phoneNumber)
 
-            mContext.startActivity(intent)
-        }
     }
 }

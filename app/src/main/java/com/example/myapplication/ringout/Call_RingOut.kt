@@ -3,6 +3,7 @@ package com.example.myapplication.ringout
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.example.myapplication.Calling
 
 
@@ -25,11 +26,11 @@ class Call_RingOut  {
     val mContext:Context
     var RECIPIENT_NUMBER :String
 
-    var RINGCENTRAL_CLIENTID = "U6mQ4NZDS-606j40IGsPEQ"
-    var RINGCENTRAL_CLIENTSECRET = "LkfnevYmQFyEvZsg0prrLQyBDrlXTBShS4iVSpqyrXFQ"
+    var RINGCENTRAL_CLIENTID = "VG9QnUu8RVWvb_pHbedGYA"
+    var RINGCENTRAL_CLIENTSECRET = "IRunQHctT7i3qyH1kct5tgBNTQGpLATqm3XdqcNiXkFA"
     var RINGCENTRAL_SERVER = "https://platform.devtest.ringcentral.com"
 
-    var RINGCENTRAL_USERNAME = "+14707992801"
+    var RINGCENTRAL_USERNAME = "+16509316886"
     var RINGCENTRAL_PASSWORD = "Kiodaija123"
     var RINGCENTRAL_EXTENSION = "101"
 
@@ -76,6 +77,8 @@ class Call_RingOut  {
         Log.d("RingCentral","Call status" + callStatus!!.status.callStatus)
         Log.d("RingCentral","Caller status" + callStatus!!.status.callerStatus)
         Log.d("RingCentral","Callee status" + callStatus!!.status.calleeStatus)
+
+       
 
         if(response!!.status.callStatus=="InProgress" || response!!.status.callStatus=="Success"){
             var intent= Intent(mContext, Calling::class.java)

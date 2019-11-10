@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -27,15 +28,24 @@ class MainActivity : AppCompatActivity() {
 //        val intent= Intent(Intent.ACTION_VIEW, Uri.parse( "https://platform.ringcentral.com/restapi/oauth/authorize?response_type=code&redirect_uri=com.example.rcphone://callback&client_id=$RINGCENTRAL_CLIENTID"))
 //        startActivity(intent)
 
-        val uri: Uri? = getIntent().data
+//        val uri: Uri? = getIntent().data
+//
+//        println(uri)
 
-        println(uri)
+        btnLog.setOnClickListener{
+            var intent= Intent(this , CallLogs::class.java)
+
+            this.startActivity(intent)
+        }
+
 
 
         btnDial.setOnClickListener {
             val phone = PhoneNumber.text.toString()
             call(phone)
+
         }
+
 
     }
 
@@ -45,14 +55,17 @@ class MainActivity : AppCompatActivity() {
 
     class Test(phone: String, context: Context) : AsyncTask<Void, Void, Unit>() {
         
+        @SuppressLint("StaticFieldLeak")
         val mContext = context
-        var phoneNumber: String = phone
+        private var phoneNumber: String = phone
 
         override fun doInBackground(vararg p0: Void?) {
 
 
 
-                var callRingout = Call_RingOut(phoneNumber, mContext)
+
+
+                val callRingout = Call_RingOut(phoneNumber, mContext)
                 callRingout.RingCentral()
 
 
